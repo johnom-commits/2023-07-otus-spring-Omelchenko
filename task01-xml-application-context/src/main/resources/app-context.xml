@@ -4,5 +4,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="resourceConfig" class="ru.otus.homework.config.ResourceConfig">
+        <constructor-arg value="data-source.csv"/>
+    </bean>
 
+    <bean id="questionsRepository" class="ru.otus.homework.repository.QuestionsRepositoryCsv">
+        <constructor-arg index="0" ref="resourceConfig"/>
+    </bean>
+
+    <bean id="pollingService" class="ru.otus.homework.service.PollingServiceImpl">
+        <constructor-arg index="0" ref="questionsRepository"/>
+    </bean>
 </beans>
