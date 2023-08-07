@@ -3,7 +3,6 @@ package ru.otus.homework.service;
 import ru.otus.homework.domain.Question;
 import ru.otus.homework.repository.QuestionsRepository;
 
-import java.io.IOException;
 import java.util.List;
 
 public class PollingServiceImpl implements PollingService {
@@ -15,12 +14,8 @@ public class PollingServiceImpl implements PollingService {
 
     @Override
     public void publishingQuestion() {
-        try {
-            List<Question> questions = questionsRepository.findAll();
-            publish(questions);
-        } catch (IOException e) {
-            System.out.println("Sorry, something went wrong");
-        }
+        List<Question> questions = questionsRepository.findAll();
+        publish(questions);
     }
 
     private void publish(List<Question> questions) {

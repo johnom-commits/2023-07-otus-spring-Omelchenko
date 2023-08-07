@@ -5,9 +5,9 @@ import ru.otus.homework.domain.Answer;
 import ru.otus.homework.domain.Question;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,25 +15,35 @@ import java.util.Optional;
 public class QuestionsRepositoryCsv implements QuestionsRepository {
     private static final String COMMA_DELIMITER = ",";
 
-    private final ResourceConfig resource;
+    private final ResourceConfig resourceConfig;
 
-    public QuestionsRepositoryCsv(ResourceConfig resource) {
-        this.resource = resource;
+    public QuestionsRepositoryCsv(ResourceConfig resourceConfig) {
+        this.resourceConfig = resourceConfig;
     }
 
     @Override
-    public List<Question> findAll() throws IOException {
+    public List<Question> findAll() {
         List<Question> questions = new ArrayList<>();
-        File sourceFile = resource.getSource().getFile();
-        try (BufferedReader br = new BufferedReader(new FileReader(sourceFile))) {
+        InputStream resource = getResource();
+        if (resource == null) {
+            return questions;
+        }
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(resource))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] valuesOfLine = line.split(COMMA_DELIMITER);
                 Optional.ofNullable(getQuestion(valuesOfLine))
                         .ifPresent(questions::add);
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         return questions;
+    }
+
+    private InputStream getResource() {
+        String fileNameData = resourceConfig.getFileNameDataSource();
+        return QuestionsRepositoryCsv.class.getClassLoader().getResourceAsStream(fileNameData);
     }
 
     private Question getQuestion(String[] values) {

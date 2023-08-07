@@ -2,7 +2,6 @@ package ru.otus.homework.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.core.io.ClassPathResource;
 import ru.otus.homework.config.ResourceConfig;
 import ru.otus.homework.repository.QuestionsRepository;
 import ru.otus.homework.repository.QuestionsRepositoryCsv;
@@ -25,7 +24,7 @@ class PollingServiceImplTest {
             PrintStream capture = new PrintStream(outputStream);
             System.setOut(capture);
 
-            ResourceConfig resourceConfig = new ResourceConfig(new ClassPathResource("data-source-test.csv"));
+            ResourceConfig resourceConfig = new ResourceConfig("data-source-test.csv");
             QuestionsRepository repo = new QuestionsRepositoryCsv(resourceConfig);
             PollingService pollingService = new PollingServiceImpl(repo);
             pollingService.publishingQuestion();
