@@ -24,11 +24,7 @@ public class QuestionsRepositoryCsv implements QuestionsRepository {
     @Override
     public List<Question> findAll() {
         List<Question> questions = new ArrayList<>();
-        InputStream resource = getResource();
-        if (resource == null) {
-            return questions;
-        }
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(resource))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(getResource()))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] valuesOfLine = line.split(COMMA_DELIMITER);
