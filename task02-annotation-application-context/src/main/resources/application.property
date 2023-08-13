@@ -1,0 +1,2 @@
+app.datasource.file-name=data-source.csv
+app.number-right-answers=4
