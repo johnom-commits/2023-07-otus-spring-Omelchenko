@@ -1,23 +1,27 @@
 package ru.otus.homework.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Question;
+import ru.otus.homework.domain.ResultTest;
 import ru.otus.homework.domain.Student;
 import ru.otus.homework.repository.QuestionsRepository;
 
 import java.util.List;
-import java.util.Scanner;
 
 @Service("pollingService")
 public class PollingServiceImpl implements PollingService {
     private final QuestionsRepository questionsRepository;
 
-    private final int limit;
+    private final ResultService resultService;
 
-    public PollingServiceImpl(QuestionsRepository questionsRepository, @Value("${app.number-right-answers}") int limit) {
+    private final IOService ioService;
+
+    public PollingServiceImpl(QuestionsRepository questionsRepository,
+                              ResultService resultService,
+                              IOService ioService) {
         this.questionsRepository = questionsRepository;
-        this.limit = limit;
+        this.resultService = resultService;
+        this.ioService = ioService;
     }
 
     @Override
@@ -27,34 +31,25 @@ public class PollingServiceImpl implements PollingService {
     }
 
     private void publish(List<Question> questions) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your surname:");
-        String surname = scanner.next();
-        System.out.println("Enter your name:");
-        String name = scanner.next();
-        Student student = new Student(surname, name);
-        System.out.printf("%s, give answers on next 5 questions:\n", name);
+        var name = ioService.readStringWithPrompt("Enter your name:");
+        var surName = ioService.readStringWithPrompt("Enter your surname:");
+        var result = new ResultTest(new Student(name, surName));
 
-        int countRightAnswers = 0;
-        for (Question question : questions) {
-            printQuestion(question);
-            int answerStudent = Integer.parseInt(scanner.next());
-            if (answerStudent == question.getRightAnswer()) {
-                countRightAnswers++;
-            }
-        }
-        if (countRightAnswers >= limit) {
-            System.out.println("Test passed");
-        } else {
-            System.out.println("Test failed");
-        }
+        ioService.outputString(name + ", give answers on next 5 questions:");
+
+        questions.forEach(question -> {
+                    printQuestion(question);
+                    int numberAnswer = ioService.readIntWithPrompt("Enter number of answer:");
+                    result.addAnswer(question, numberAnswer);
+                }
+        );
+        ioService.outputString(resultService.getResult(result));
     }
 
     private void printQuestion(Question question) {
-        System.out.printf("%s. %s\n", question.getId(), question.getText());
+        ioService.outputString(question.getId() + ". " + question.getText());
         question.getAnswers().forEach(answer ->
-            System.out.printf("  %s. %s\n", answer.getId(), answer.getText())
+                ioService.outputString("  " + answer.getId() + ". " + answer.getText())
         );
-        System.out.println("Enter number of answer:");
     }
 }

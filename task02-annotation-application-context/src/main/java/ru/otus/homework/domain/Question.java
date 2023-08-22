@@ -15,7 +15,7 @@ public class Question {
 
     private int rightAnswer;
 
-    public void addAnswers(List<Answer> answers) {
-        this.answers.addAll(answers);
+    public void addAnswer(Answer answer) {
+        this.answers.add(answer);
     }
 }

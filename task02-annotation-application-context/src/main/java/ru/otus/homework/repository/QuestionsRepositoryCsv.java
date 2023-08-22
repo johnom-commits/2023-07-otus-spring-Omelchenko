@@ -1,8 +1,9 @@
 package ru.otus.homework.repository;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.otus.homework.config.ResourceConfig;
-import ru.otus.homework.domain.Answer;
+import ru.otus.homework.service.QuestionConverter;
+import ru.otus.homework.config.ApplicationConfig;
 import ru.otus.homework.domain.Question;
 
 import java.io.BufferedReader;
@@ -13,15 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Repository
 public class QuestionsRepositoryCsv implements QuestionsRepository {
-    private static final String COMMA_DELIMITER = ",";
 
-    private final ResourceConfig resourceConfig;
+    private final QuestionConverter questionConverter;
 
-    public QuestionsRepositoryCsv(ResourceConfig resourceConfig) {
-        this.resourceConfig = resourceConfig;
-    }
+    private final ApplicationConfig config;
 
     @Override
     public List<Question> findAll() {
@@ -29,8 +28,8 @@ public class QuestionsRepositoryCsv implements QuestionsRepository {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(getResource()))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] valuesOfLine = line.split(COMMA_DELIMITER);
-                Optional.ofNullable(getQuestion(valuesOfLine))
+                var question = questionConverter.convert(line);
+                Optional.ofNullable(question)
                         .ifPresent(questions::add);
             }
         } catch (IOException e) {
@@ -40,25 +39,7 @@ public class QuestionsRepositoryCsv implements QuestionsRepository {
     }
 
     private InputStream getResource() {
-        String fileNameData = resourceConfig.getFileNameDataSource();
+        String fileNameData = config.getFileNameDataSource();
         return QuestionsRepositoryCsv.class.getClassLoader().getResourceAsStream(fileNameData);
-    }
-
-    private Question getQuestion(String[] values) {
-        if (values.length < 3) {
-            return null;
-        }
-        Question question = new Question();
-        question.setId(Long.parseLong(values[0]));
-        question.setText(values[1]);
-        question.setRightAnswer(Integer.parseInt(values[2]));
-
-        int count = 0;
-        List<Answer> answers = new ArrayList<>();
-        for (int i = 3; i < values.length; i++) {
-            answers.add(new Answer(++count, values[i]));
-        }
-        question.addAnswers(answers);
-        return question;
     }
 }
