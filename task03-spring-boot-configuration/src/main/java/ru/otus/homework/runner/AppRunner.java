@@ -1,8 +1,7 @@
 package ru.otus.homework.runner;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import ru.otus.homework.convertor.AnswerConverter;
 import ru.otus.homework.convertor.FromQuestionConverter;
@@ -19,7 +18,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class AppRunner implements ApplicationRunner {
+public class AppRunner implements CommandLineRunner {
 
     private final QuestionsRepository questionsRepository;
 
@@ -34,7 +33,7 @@ public class AppRunner implements ApplicationRunner {
     private final AnswerConverter answerConverter;
 
     @Override
-    public void run(ApplicationArguments args) {
+    public void run(String... args) {
         List<Question> questions = questionsRepository.findAll();
         if (questions.isEmpty()) {
             throw new QuestionsNotFountException(localizationService.getMessage("test.error-not-questions"));

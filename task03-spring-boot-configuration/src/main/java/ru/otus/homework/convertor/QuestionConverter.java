@@ -19,11 +19,13 @@ public class QuestionConverter implements Converter<String, Question> {
         Question question = new Question();
         question.setId(Long.parseLong(sources[0]));
         question.setText(sources[1]);
-        question.setRightAnswer(Integer.parseInt(sources[2]));
+        int rightAnswer = Integer.parseInt(sources[2]);
 
         int count = 0;
         for (int i = 3; i < sources.length; i++) {
-            question.addAnswer(new Answer(++count, sources[i]));
+            question.addAnswer(
+                    new Answer(++count, sources[i], count == rightAnswer)
+            );
         }
         return question;
     }

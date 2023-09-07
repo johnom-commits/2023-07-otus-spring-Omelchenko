@@ -11,6 +11,6 @@ public class AnswerConverter implements Converter<Answer, String> {
 
     @Override
     public String convert(Answer source) {
-        return String.format(" %s. %s", source.getId(), source.getText());
+        return String.format(" %s. %s", source.id(), source.text());
     }
 }

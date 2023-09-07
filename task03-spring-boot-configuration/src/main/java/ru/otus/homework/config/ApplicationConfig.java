@@ -4,9 +4,6 @@ import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.ConstructorBinding;
-import org.springframework.context.annotation.Bean;
-import ru.otus.homework.service.IOService;
-import ru.otus.homework.service.IOServiceStream;
 
 import java.io.InputStream;
 import java.util.Locale;
@@ -50,11 +47,6 @@ public class ApplicationConfig implements ResourceProvider, AppConfig, LocalePro
 
     public int getRightAnswers() {
         return Integer.parseInt(numberRightAnswers);
-    }
-
-    @Bean
-    public IOService ioServiceStream() {
-        return new IOServiceStream(System.out, System.in);
     }
 
     @Override

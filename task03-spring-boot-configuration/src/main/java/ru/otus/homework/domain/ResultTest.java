@@ -20,7 +20,7 @@ public class ResultTest {
 
     public int getNumberRightAnswers() {
         return (int) answers.entrySet().stream()
-                .filter(entry -> entry.getKey().getRightAnswer() == entry.getValue())
+                .filter(entry -> entry.getKey().getAnswers().get(entry.getValue() - 1).rightAnswer())
                 .count();
     }
 }

@@ -20,7 +20,7 @@ class AnswerConverterTest {
     @DisplayName("Должен вернуть строку")
     @Test
     void convert() {
-        Answer answer = new Answer(1L, "This is a answer");
+        Answer answer = new Answer(1L, "This is a answer", true);
         String actual = answerConverter.convert(answer);
 
         assertThat(actual).isEqualTo(" 1. This is a answer");

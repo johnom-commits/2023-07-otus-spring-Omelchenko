@@ -13,8 +13,6 @@ public class Question {
 
     private List<Answer> answers = new ArrayList<>();
 
-    private int rightAnswer;
-
     public void addAnswer(Answer answer) {
         this.answers.add(answer);
     }

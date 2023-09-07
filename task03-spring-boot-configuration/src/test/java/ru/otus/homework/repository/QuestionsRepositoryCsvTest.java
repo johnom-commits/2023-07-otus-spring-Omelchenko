@@ -38,10 +38,9 @@ class QuestionsRepositoryCsvTest {
         Question question = new Question();
         question.setId(1);
         question.setText("To be or not to be - what is the question?");
-        question.setRightAnswer(1);
         List<Answer> answers = List.of(
-                new Answer(1, "Shakespeare"),
-                new Answer(2, "Byron")
+                new Answer(1, "Shakespeare", true),
+                new Answer(2, "Byron", false)
         );
         question.setAnswers(answers);
         return question;
