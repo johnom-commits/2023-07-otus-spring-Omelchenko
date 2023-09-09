@@ -11,3 +11,5 @@
 Занятие 02 "Конфигурирование Spring-приложений" -> task02-annotation-application-context
 
 Занятие 05 "Черная магия Spring-boot" -> task03-spring-boot-configuration
+
+Занятие 07 "Продвинутая конфигурация (часть 2) - Conditionals, Events, тестирование" -> task04-spring-shell-application
