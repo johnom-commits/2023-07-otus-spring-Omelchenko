@@ -1,0 +1,5 @@
+app:
+  directory-datasource: datasource
+  pattern-datasource-file-name: data-source.csv
+  number-right-answers: 4
+  locale: ru-RU
