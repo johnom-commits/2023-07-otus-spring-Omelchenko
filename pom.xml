@@ -15,5 +15,6 @@
         <module>task02-annotation-application-context</module>
         <module>task03-spring-boot-configuration</module>
         <module>task04-spring-shell-application</module>
+        <module>task05-spring-jdbc</module>
     </modules>
 </project>

@@ -13,3 +13,5 @@
 Занятие 05 "Черная магия Spring-boot" -> task03-spring-boot-configuration
 
 Занятие 07 "Продвинутая конфигурация (часть 2) - Conditionals, Events, тестирование" -> task04-spring-shell-application
+
+Занятие 09 "DAO на Spirng JDBC" -> task05-spring-jdbc
