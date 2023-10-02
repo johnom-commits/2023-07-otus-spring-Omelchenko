@@ -15,7 +15,6 @@ public class BookMapper implements RowMapper<Book> {
         String title = rs.getString("title");
         Author author = new Author(rs.getLong("id_author"), rs.getString("name_author"));
         Genre genre = new Genre(rs.getLong("id_genre"), rs.getString("name_genre"));
-        Book book = new Book(id, title, author, genre);
-        return book;
+        return new Book(id, title, author, genre);
     }
 }

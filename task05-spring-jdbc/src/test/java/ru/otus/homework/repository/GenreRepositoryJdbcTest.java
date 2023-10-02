@@ -31,7 +31,7 @@ class GenreRepositoryJdbcTest {
 
     @Test
     void getById() {
-        Genre actual = genreRepository.getById(1L).get();
+        Genre actual = genreRepository.getById(1L).orElse(null);
         Genre expected = new Genre(1L, "poetry");
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);

@@ -26,7 +26,7 @@ class AuthorsRepositoryJdbcTest {
 
     @Test
     void getById() {
-        Author actual = authorRepository.getById(2L).get();
+        Author actual = authorRepository.getById(2L).orElse(null);
         Author expected = new Author(2, "Makarenko");
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);

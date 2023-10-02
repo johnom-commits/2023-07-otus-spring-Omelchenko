@@ -27,10 +27,10 @@ class BookRepositoryJdbcTest {
 
     @Test
     void insert() {
-        BookDto bookDto = new BookDto("March of 30", authorRepository.getById(2L).get(), genreRepository.getById(2L).get());
+        BookDto bookDto = new BookDto("March of 30", authorRepository.getById(2L).orElse(null), genreRepository.getById(2L).orElse(null));
         long id = bookRepository.insert(bookDto);
 
-        Book actual = bookRepository.getById(id).get();
+        Book actual = bookRepository.getById(id).orElse(null);
         Book expected = new Book(id, bookDto.title(), bookDto.author(), bookDto.genre());
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
@@ -40,7 +40,7 @@ class BookRepositoryJdbcTest {
     void getAll() {
         List<Book> expected = List.of(
                 new Book(1L, "pedagogical poem",
-                        authorRepository.getById(2L).get(), genreRepository.getById(2L).get())
+                        authorRepository.getById(2L).orElse(null), genreRepository.getById(2L).orElse(null))
         );
         List<Book> actual = bookRepository.getAll();
 
@@ -50,10 +50,10 @@ class BookRepositoryJdbcTest {
     @Test
     void update() {
         Book book = new Book(1L, "Flags on the towers",
-                authorRepository.getById(2L).get(), genreRepository.getById(2L).get());
+                authorRepository.getById(2L).orElse(null), genreRepository.getById(2L).orElse(null));
         bookRepository.update(book);
 
-        Book actual = bookRepository.getById(1L).get();
+        Book actual = bookRepository.getById(1L).orElse(null);
 
         assertThat(actual.getTitle()).isEqualTo("Flags on the towers");
     }
