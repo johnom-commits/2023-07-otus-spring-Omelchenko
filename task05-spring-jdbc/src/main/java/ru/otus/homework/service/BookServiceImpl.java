@@ -26,7 +26,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto saveBook(BookCreateDto bookDto) {
-        // TODO: 06.10.2023
         Book book = new Book();
         book.setTitle(bookDto.title());
         book.setAuthor(authorService.getAuthorById(bookDto.author_id()));
