@@ -5,13 +5,11 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.homework.convertor.AuthorConverter;
-import ru.otus.homework.convertor.BookConverter;
+import ru.otus.homework.convertor.BookDtoConverter;
 import ru.otus.homework.convertor.GenreConverter;
-import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
-import ru.otus.homework.domain.Genre;
-import ru.otus.homework.dto.BookDto;
-import ru.otus.homework.exception.OtusNoSuchElementException;
+import ru.otus.homework.dto.BookCreateDto;
+import ru.otus.homework.dto.BookUpdateDto;
 import ru.otus.homework.service.AuthorService;
 import ru.otus.homework.service.BookService;
 import ru.otus.homework.service.GenreService;
@@ -26,7 +24,7 @@ public class ShellAppRunner {
 
     private final BookService bookService;
 
-    private final BookConverter bookConverter;
+    private final BookDtoConverter bookDtoConverter;
 
     private final AuthorConverter authorConverter;
 
@@ -34,11 +32,7 @@ public class ShellAppRunner {
 
     @ShellMethod(value = "save new book", key = {"insert", "i"})
     public void addBook(@ShellOption String title, @ShellOption String authorId, @ShellOption String genreId) {
-        Author author = authorService.getAuthorById(authorId)
-                .orElseThrow(() -> new OtusNoSuchElementException(getTextException("author", authorId)));
-        Genre genre = genreService.getGenreById(genreId)
-                .orElseThrow(() -> new OtusNoSuchElementException(getTextException("genre", genreId)));
-        BookDto book = new BookDto(title, author, genre);
+        BookCreateDto book = new BookCreateDto(title, Long.parseLong(authorId), Long.parseLong(genreId));
         bookService.saveBook(book);
     }
 
@@ -47,11 +41,10 @@ public class ShellAppRunner {
                            @ShellOption String title,
                            @ShellOption String authorId,
                            @ShellOption String genreId) {
-        Author author = authorService.getAuthorById(authorId)
-                .orElseThrow(() -> new OtusNoSuchElementException(getTextException("author", id)));
-        Genre genre = genreService.getGenreById(genreId)
-                .orElseThrow(() -> new OtusNoSuchElementException(getTextException("genre", id)));
-        Book book = new Book(Long.parseLong(id), title, author, genre);
+        BookUpdateDto book = new BookUpdateDto(Long.parseLong(id),
+                title,
+                Long.parseLong(authorId),
+                Long.parseLong(genreId));
         bookService.update(book);
     }
 
@@ -59,7 +52,7 @@ public class ShellAppRunner {
     public String readBooks() {
         final StringBuilder builder = new StringBuilder();
         bookService.getAll().forEach(
-                book -> builder.append(bookConverter.convert(book))
+                book -> builder.append(bookDtoConverter.convert(book))
                         .append("\n")
         );
         return formatText(builder);
@@ -67,9 +60,8 @@ public class ShellAppRunner {
 
     @ShellMethod(value = "read book", key = {"book", "b"})
     public String readBook(@ShellOption String id) {
-        Book book = bookService.getById(Long.parseLong(id))
-                .orElseThrow(() -> new OtusNoSuchElementException(getTextException("book", id)));
-        return bookConverter.convert(book);
+        Book book = bookService.getById(Long.parseLong(id));
+        return bookDtoConverter.convert(book);
     }
 
     @ShellMethod(value = "delete book by id", key = {"delete-book", "db"})
@@ -101,9 +93,5 @@ public class ShellAppRunner {
         int n = builder.length();
         builder.delete(n - 1, n);
         return builder.toString();
-    }
-
-    private String getTextException(String object, String id) {
-        return String.format("Not found %s wit id = %s", object, id);
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import ru.otus.homework.domain.Book;
-import ru.otus.homework.dto.BookDto;
+import ru.otus.homework.dto.BookUpdateDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-@Import({BookRepositoryJdbc.class, AuthorsRepositoryJdbc.class, GenreRepositoryJdbc.class})
+@Import({BookRepositoryJdbc.class, AuthorRepositoryImpl.class, GenreRepositoryImpl.class})
 class BookRepositoryJdbcTest {
 
     @Autowired
@@ -27,11 +27,14 @@ class BookRepositoryJdbcTest {
 
     @Test
     void insert() {
-        BookDto bookDto = new BookDto("March of 30", authorRepository.getById(2L).orElse(null), genreRepository.getById(2L).orElse(null));
-        long id = bookRepository.insert(bookDto);
+        Book book = new Book();
+        book.setTitle("March of 30");
+        book.setAuthor(authorRepository.getById(2L).orElse(null));
+        book.setGenre(genreRepository.getById(2L).orElse(null));
+        Book createdBook = bookRepository.create(book);
 
-        Book actual = bookRepository.getById(id).orElse(null);
-        Book expected = new Book(id, bookDto.title(), bookDto.author(), bookDto.genre());
+        Book actual = bookRepository.getById(createdBook.getId()).orElse(null);
+        Book expected = new Book(createdBook.getId(), book.getTitle(), book.getAuthor(), book.getGenre());
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
@@ -49,8 +52,7 @@ class BookRepositoryJdbcTest {
 
     @Test
     void update() {
-        Book book = new Book(1L, "Flags on the towers",
-                authorRepository.getById(2L).orElse(null), genreRepository.getById(2L).orElse(null));
+        BookUpdateDto book = new BookUpdateDto(1L, "Flags on the towers", 2L, 2L);
         bookRepository.update(book);
 
         Book actual = bookRepository.getById(1L).orElse(null);

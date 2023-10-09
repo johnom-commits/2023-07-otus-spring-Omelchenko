@@ -3,14 +3,14 @@ package ru.otus.homework.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Author;
+import ru.otus.homework.exception.NotFoundException;
 import ru.otus.homework.repository.AuthorRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthorsServiceImpl implements AuthorService {
+public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
 
@@ -20,7 +20,8 @@ public class AuthorsServiceImpl implements AuthorService {
     }
 
     @Override
-    public Optional<Author> getAuthorById(String id) {
-        return authorRepository.getById(Long.parseLong(id));
+    public Author getAuthorById(long id) {
+        return authorRepository.getById(id)
+                .orElseThrow(() -> new NotFoundException("Nof found author with id " + id));
     }
 }

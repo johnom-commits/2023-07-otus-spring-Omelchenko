@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.homework.domain.Book;
-import ru.otus.homework.dto.BookDto;
+import ru.otus.homework.dto.BookUpdateDto;
 import ru.otus.homework.mapper.BookMapper;
 import ru.otus.homework.mapper.BookResultSetExtractor;
 
@@ -24,17 +24,19 @@ public class BookRepositoryJdbc implements BookRepository {
     private final NamedParameterJdbcOperations jdbc;
 
     @Override
-    public long insert(BookDto book) {
+    public Book create(Book book) {
         MapSqlParameterSource map = new MapSqlParameterSource();
-        map.addValue("title", book.title());
-        map.addValue("author", book.author().getId());
-        map.addValue("genre", book.genre().getId());
+        map.addValue("title", book.getTitle());
+        map.addValue("author", book.getAuthor().getId());
+        map.addValue("genre", book.getGenre().getId());
 
         GeneratedKeyHolder kh = new GeneratedKeyHolder();
         jdbc.update("INSERT INTO books (title, authors_id, genres_id) VALUES (:title, :author, :genre)",
                 map, kh, new String[]{"id"});
 
-        return Objects.requireNonNull(kh.getKey()).longValue();
+        long id = Objects.requireNonNull(kh.getKey()).longValue();
+        book.setId(id);
+        return book;
     }
 
     @Override
@@ -68,12 +70,12 @@ public class BookRepositoryJdbc implements BookRepository {
     }
 
     @Override
-    public void update(Book book) {
+    public void update(BookUpdateDto book) {
         Map<String, ? extends Serializable> map = Map.of(
-                "id", book.getId(),
-                "title", book.getTitle(),
-                "author", book.getAuthor().getId(),
-                "genre", book.getGenre().getId()
+                "id", book.id(),
+                "title", book.title(),
+                "author", book.author_id(),
+                "genre", book.genre_id()
         );
         jdbc.update("UPDATE books SET title = :title, authors_id = :author, genres_id = :genre " +
                 "WHERE id = :id", map);

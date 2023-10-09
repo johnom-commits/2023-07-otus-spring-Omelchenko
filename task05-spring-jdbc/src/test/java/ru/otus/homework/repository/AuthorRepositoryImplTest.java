@@ -11,8 +11,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-@Import(AuthorsRepositoryJdbc.class)
-class AuthorsRepositoryJdbcTest {
+@Import(AuthorRepositoryImpl.class)
+class AuthorRepositoryImplTest {
 
     @Autowired
     private AuthorRepository authorRepository;

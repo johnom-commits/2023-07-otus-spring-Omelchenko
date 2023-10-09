@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class GenreRepositoryJdbc implements GenreRepository {
+public class GenreRepositoryImpl implements GenreRepository {
 
     private final NamedParameterJdbcOperations jdbc;
 

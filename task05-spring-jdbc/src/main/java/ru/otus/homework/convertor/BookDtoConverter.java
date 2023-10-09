@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.otus.homework.domain.Book;
 
 @Component
-public class BookConverter implements Converter<Book, String> {
+public class BookDtoConverter implements Converter<Book, String> {
 
     @Override
     public String convert(Book book) {
