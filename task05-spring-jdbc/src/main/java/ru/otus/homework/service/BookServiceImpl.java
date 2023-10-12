@@ -2,13 +2,17 @@ package ru.otus.homework.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
+import ru.otus.homework.domain.Genre;
 import ru.otus.homework.dto.BookCreateDto;
 import ru.otus.homework.dto.BookDto;
 import ru.otus.homework.dto.BookUpdateDto;
 import ru.otus.homework.exception.NotFoundException;
 import ru.otus.homework.mapper.BookDtoMapping;
+import ru.otus.homework.repository.AuthorRepository;
 import ru.otus.homework.repository.BookRepository;
+import ru.otus.homework.repository.GenreRepository;
 
 import java.util.List;
 
@@ -20,17 +24,16 @@ public class BookServiceImpl implements BookService {
 
     private final BookDtoMapping bookDtoMapping;
 
-    private final AuthorService authorService;
+    private final AuthorRepository authorRepository;
 
-    private final GenreService genreService;
+    private final GenreRepository genreRepository;
 
     @Override
     public BookDto saveBook(BookCreateDto bookDto) {
         Book book = new Book();
         book.setTitle(bookDto.title());
-        book.setAuthor(authorService.getAuthorById(bookDto.author_id()));
-        book.setGenre(genreService.getGenreById(bookDto.genre_id()));
-
+        book.setAuthor(getAuthor(bookDto.author_id()));
+        book.setGenre(getGenre(bookDto.genre_id()));
         Book savedBook = bookRepository.create(book);
         return bookDtoMapping.toBookDto(savedBook);
     }
@@ -47,7 +50,18 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void update(BookUpdateDto book) {
+    public void update(BookUpdateDto bookDto) {
+        if (!bookRepository.isExist(bookDto.id())) {
+            throw new NotFoundException(getTextException("book", bookDto.id()));
+        }
+        Author author = getAuthor(bookDto.author_id());
+        Genre genre = getGenre(bookDto.genre_id());
+
+        Book book = new Book();
+        book.setId(bookDto.id());
+        book.setTitle(bookDto.title());
+        book.setAuthor(author);
+        book.setGenre(genre);
         bookRepository.update(book);
     }
 
@@ -56,7 +70,17 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(id);
     }
 
+    private Genre getGenre(long id) {
+        return genreRepository.getById(id)
+                .orElseThrow(() -> new NotFoundException(getTextException("genre", id)));
+    }
+
+    private Author getAuthor(long id) {
+        return authorRepository.getById(id)
+                .orElseThrow(() -> new NotFoundException(getTextException("author", id)));
+    }
+
     private String getTextException(String object, long id) {
-        return String.format("Not found %s wit id = %d", object, id);
+        return "Not found %s with id = %d".formatted(object, id);
     }
 }

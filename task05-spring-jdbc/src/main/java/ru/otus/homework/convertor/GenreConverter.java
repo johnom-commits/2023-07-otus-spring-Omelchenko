@@ -9,6 +9,6 @@ public class GenreConverter implements Converter<Genre, String> {
 
     @Override
     public String convert(Genre genre) {
-        return String.format("%s. %s", genre.getId(), genre.getName());
+        return "%s. %s".formatted(genre.getId(), genre.getName());
     }
 }

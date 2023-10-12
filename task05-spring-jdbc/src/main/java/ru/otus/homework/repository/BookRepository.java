@@ -1,7 +1,6 @@
 package ru.otus.homework.repository;
 
 import ru.otus.homework.domain.Book;
-import ru.otus.homework.dto.BookUpdateDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +12,9 @@ public interface BookRepository {
 
     List<Book> getAll();
 
-    void update(BookUpdateDto book);
+    boolean isExist(long id);
+
+    void update(Book book);
 
     void delete(long id);
 }

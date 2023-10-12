@@ -9,6 +9,6 @@ public class AuthorConverter implements Converter<Author, String> {
 
     @Override
     public String convert(Author author) {
-        return String.format("%s. %s", author.getId(), author.getName());
+        return "%s. %s".formatted(author.getId(), author.getName());
     }
 }

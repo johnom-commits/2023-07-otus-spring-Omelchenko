@@ -9,7 +9,7 @@ public class BookDtoConverter implements Converter<Book, String> {
 
     @Override
     public String convert(Book book) {
-        return String.format("%s. %s, %s, %s",
+        return "%s. %s, %s, %s".formatted(
                 book.getId(),
                 book.getTitle(),
                 book.getAuthor().getName(),

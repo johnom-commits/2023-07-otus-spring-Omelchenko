@@ -52,7 +52,9 @@ class BookRepositoryJdbcTest {
 
     @Test
     void update() {
-        BookUpdateDto book = new BookUpdateDto(1L, "Flags on the towers", 2L, 2L);
+        Book book = new Book(1L, "Flags on the towers",
+                authorRepository.getById(2L).orElse(null),
+                genreRepository.getById(2L).orElse(null));
         bookRepository.update(book);
 
         Book actual = bookRepository.getById(1L).orElse(null);
