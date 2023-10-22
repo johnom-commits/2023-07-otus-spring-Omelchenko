@@ -16,5 +16,6 @@
         <module>task03-spring-boot-configuration</module>
         <module>task04-spring-shell-application</module>
         <module>task05-spring-jdbc</module>
+        <module>task06-spring-orm</module>
     </modules>
 </project>

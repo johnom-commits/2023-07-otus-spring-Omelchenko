@@ -15,3 +15,5 @@
 Занятие 07 "Продвинутая конфигурация (часть 2) - Conditionals, Events, тестирование" -> task04-spring-shell-application
 
 Занятие 09 "DAO на Spirng JDBC" -> task05-spring-jdbc
+
+Занятие 11 "JPQL, Spring ORM, DAO на основе Spring ORM + JPA" -> task06-spring-orm
