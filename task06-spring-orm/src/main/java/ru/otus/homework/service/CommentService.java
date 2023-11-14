@@ -1,17 +1,18 @@
 package ru.otus.homework.service;
 
 import ru.otus.homework.domain.Comment;
+import ru.otus.homework.dto.CommentDto;
 
 import java.util.List;
 
 public interface CommentService {
-    List<Comment> getCommentByBookId(long bookId);
+    List<Comment> getByBookId(Long bookId);
 
-    Comment getById(long id);
+    Comment getById(Long id);
 
-    void createComment(String text, long id);
+    void create(CommentDto commentDto);
 
-    void deleteComment(long id);
+    void delete(Long id);
 
-    void updateComment(long l, String text);
+    void update(Long l, String text);
 }

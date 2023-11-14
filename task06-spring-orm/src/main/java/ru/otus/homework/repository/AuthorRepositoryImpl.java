@@ -23,7 +23,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public Optional<Author> getById(long id) {
+    public Optional<Author> getById(Long id) {
         return Optional.ofNullable(em.find(Author.class, id));
     }
 }

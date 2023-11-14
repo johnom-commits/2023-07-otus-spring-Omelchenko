@@ -22,7 +22,7 @@ class BookRepositoryImplTest {
 
     private static final int EXPECTED_NUMBER_OF_BOOKS = 2;
 
-    private static final int FIRST_BOOK_ID = 1;
+    private static final Long FIRST_BOOK_ID = 1L;
 
     @Autowired
     private BookRepositoryImpl bookRepository;
@@ -33,14 +33,14 @@ class BookRepositoryImplTest {
     @Test
     @DisplayName("Должен корректно сохранять всю информацию о книге")
     void create() {
-        Author author = new Author(3, "Bylgakov");
-        Genre genre = new Genre(3, "Story");
-        Comment comment = new Comment(2, "Comment N 2");
-        Book book = new Book(3, "March of 30", author, genre, List.of(comment));
-        Book createdBook = bookRepository.create(book);
+        Author author = new Author(3L, "Bylgakov");
+        Genre genre = new Genre(3L, "Story");
+        Book book = new Book(3L, "March of 30", author, genre);
+        Comment comment = new Comment(2L, "Comment N 2", book);
+        Book createdBook = bookRepository.save(book);
 
         Book actual = bookRepository.getById(createdBook.getId()).orElse(null);
-        Book expected = new Book(createdBook.getId(), book.getTitle(), book.getAuthor(), book.getGenre(), book.getComments());
+        Book expected = new Book(createdBook.getId(), book.getTitle(), book.getAuthor(), book.getGenre());
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
@@ -61,8 +61,7 @@ class BookRepositoryImplTest {
         assertThat(actual).isNotNull().hasSize(EXPECTED_NUMBER_OF_BOOKS)
                 .allMatch(b -> !b.getTitle().isEmpty())
                 .allMatch(b -> b.getAuthor() != null)
-                .allMatch(b -> b.getGenre() != null)
-                .allMatch(b -> b.getComments() != null && !b.getComments().isEmpty());
+                .allMatch(b -> b.getGenre() != null);
     }
 
     @Test
@@ -83,7 +82,7 @@ class BookRepositoryImplTest {
         em.detach(firstBook);
 
         firstBook.setTitle("hello world");
-        bookRepository.update(firstBook);
+        bookRepository.save(firstBook);
         Book updetedBook = em.find(Book.class, FIRST_BOOK_ID);
         assertThat(updetedBook.getTitle()).isNotEqualTo(oldTitle);
     }

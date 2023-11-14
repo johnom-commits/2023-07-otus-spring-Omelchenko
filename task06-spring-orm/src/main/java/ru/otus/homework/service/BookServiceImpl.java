@@ -9,7 +9,7 @@ import ru.otus.homework.dto.BookCreateDto;
 import ru.otus.homework.dto.BookDto;
 import ru.otus.homework.dto.BookUpdateDto;
 import ru.otus.homework.exception.NotFoundException;
-import ru.otus.homework.mapper.BookDtoMapping;
+import ru.otus.homework.mapper.BookMapping;
 import ru.otus.homework.repository.AuthorRepository;
 import ru.otus.homework.repository.BookRepository;
 import ru.otus.homework.repository.GenreRepository;
@@ -23,7 +23,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
-    private final BookDtoMapping bookDtoMapping;
+    private final BookMapping bookMapping;
 
     private final AuthorRepository authorRepository;
 
@@ -32,12 +32,9 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto saveBook(BookCreateDto bookDto) {
-        Book book = new Book();
-        book.setTitle(bookDto.title());
-        book.setAuthor(getAuthor(bookDto.author_id()));
-        book.setGenre(getGenre(bookDto.genre_id()));
-        Book savedBook = bookRepository.create(book);
-        return bookDtoMapping.toBookDto(savedBook);
+        Book book = bookMapping.toBook(bookDto);
+        Book savedBook = bookRepository.save(book);
+        return bookMapping.toBookDto(savedBook);
     }
 
     @Override
@@ -48,46 +45,42 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public BookDto getById(long id) {
+    public BookDto getById(Long id) {
         Book book = bookRepository.getById(id)
                 .orElseThrow(() -> new NotFoundException(getTextException("book", id)));
-        return bookDtoMapping.toBookDto(book);
+        return bookMapping.toBookDto(book);
     }
 
     @Override
     @Transactional
     public void update(BookUpdateDto bookDto) {
-        if (!bookRepository.isExist(bookDto.id())) {
-            throw new NotFoundException(getTextException("book", bookDto.id()));
-        }
+        Book book = bookRepository.getById(bookDto.id())
+                .orElseThrow(() -> new NotFoundException(getTextException("book", bookDto.id())));
         Author author = getAuthor(bookDto.author_id());
         Genre genre = getGenre(bookDto.genre_id());
-
-        Book book = new Book();
-        book.setId(bookDto.id());
         book.setTitle(bookDto.title());
         book.setAuthor(author);
         book.setGenre(genre);
-        bookRepository.update(book);
+        bookRepository.save(book);
     }
 
     @Override
     @Transactional
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         bookRepository.delete(id);
     }
 
-    private Genre getGenre(long id) {
+    private Genre getGenre(Long id) {
         return genreRepository.getById(id)
                 .orElseThrow(() -> new NotFoundException(getTextException("genre", id)));
     }
 
-    private Author getAuthor(long id) {
+    private Author getAuthor(Long id) {
         return authorRepository.getById(id)
                 .orElseThrow(() -> new NotFoundException(getTextException("author", id)));
     }
 
-    private String getTextException(String object, long id) {
+    private String getTextException(String object, Long id) {
         return "Not found %s with id = %d".formatted(object, id);
     }
 }

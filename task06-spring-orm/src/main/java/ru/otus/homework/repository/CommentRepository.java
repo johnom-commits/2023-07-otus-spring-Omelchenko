@@ -1,19 +1,18 @@
 package ru.otus.homework.repository;
 
-import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Comment;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CommentRepository {
-    List<Comment> getAllCommentsByBookId(long bookId);
+    List<Comment> getAllCommentsByBookId(Long bookId);
 
-    Optional<Comment> getById(long id);
+    Optional<Comment> getById(Long id);
 
-    void addComment(String text, Book book);
+    void deleteComment(Long id);
 
-    void deleteComment(long id);
+    void updateComment(Comment comment, String text);
 
-    void updateComment(long id, String text);
+    void addComment(Comment comment);
 }

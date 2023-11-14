@@ -5,6 +5,9 @@ spring:
     init:
       mode: always
       data-locations: data.sql
+  shell:
+    interactive:
+      enabled: true
 
 
   jpa:

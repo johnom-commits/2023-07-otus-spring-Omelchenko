@@ -6,15 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookRepository {
-    Book create(Book book);
+    Book save(Book book);
 
-    Optional<Book> getById(long id);
+    Optional<Book> getById(Long id);
 
     List<Book> getAll();
 
-    boolean isExist(long id);
+    boolean isExist(Long id);
 
-    void update(Book book);
-
-    void delete(long id);
+    void delete(Long id);
 }

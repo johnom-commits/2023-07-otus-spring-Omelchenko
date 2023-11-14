@@ -11,6 +11,7 @@ import ru.otus.homework.convertor.GenreConverter;
 import ru.otus.homework.dto.BookCreateDto;
 import ru.otus.homework.dto.BookDto;
 import ru.otus.homework.dto.BookUpdateDto;
+import ru.otus.homework.dto.CommentDto;
 import ru.otus.homework.service.AuthorService;
 import ru.otus.homework.service.BookService;
 import ru.otus.homework.service.CommentService;
@@ -103,7 +104,7 @@ public class ShellAppRunner {
     @ShellMethod(value = "list comments by book id", key = {"comment-book-id", "cb"})
     public String comments(@ShellOption String id) {
         final StringBuilder builder = new StringBuilder();
-        commentService.getCommentByBookId(Long.parseLong(id)).forEach(
+        commentService.getByBookId(Long.parseLong(id)).forEach(
                 comment -> builder.append(commentConverter.convert(comment))
                         .append("\n")
         );
@@ -118,17 +119,18 @@ public class ShellAppRunner {
 
     @ShellMethod(value = "add comment", key = {"add-comment", "ac"})
     public void addComment(@ShellOption String id, String text) {
-        commentService.createComment(text, Long.parseLong(id));
+        CommentDto dto = new CommentDto(text, Long.parseLong(id));
+        commentService.create(dto);
     }
 
     @ShellMethod(value = "delete comment", key = {"delete-comment", "dc"})
     public void deleteComment(@ShellOption String id) {
-        commentService.deleteComment(Long.parseLong(id));
+        commentService.delete(Long.parseLong(id));
     }
 
     @ShellMethod(value = "update comment", key = {"update-comment", "uc"})
     public void updateComment(@ShellOption String id, String text) {
-        commentService.updateComment(Long.parseLong(id), text);
+        commentService.update(Long.parseLong(id), text);
     }
 
     private String formatText(StringBuilder builder) {

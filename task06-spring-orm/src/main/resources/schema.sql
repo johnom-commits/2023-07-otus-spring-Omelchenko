@@ -1,19 +1,16 @@
-DROP TABLE IF EXISTS authors;
-CREATE TABLE authors
+CREATE TABLE IF NOT EXISTS authors
 (
     id bigserial PRIMARY KEY,
     name varchar(255) NOT NULL
 );
 
-DROP TABLE IF EXISTS genres;
-CREATE TABLE genres
+CREATE TABLE IF NOT EXISTS genres
 (
     id bigserial PRIMARY KEY,
     name varchar(255) NOT NULL UNIQUE
 );
 
-DROP TABLE IF EXISTS books;
-CREATE TABLE books
+CREATE TABLE IF NOT EXISTS books
 (
     id bigserial PRIMARY KEY,
     title varchar(255) NOT NULL,
@@ -21,8 +18,7 @@ CREATE TABLE books
     genre_id bigint REFERENCES genres (id) ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS comments;
-CREATE TABLE comments
+CREATE TABLE IF NOT EXISTS comments
 (
     id bigserial PRIMARY KEY,
     book_id bigint REFERENCES books (id) ON DELETE CASCADE,

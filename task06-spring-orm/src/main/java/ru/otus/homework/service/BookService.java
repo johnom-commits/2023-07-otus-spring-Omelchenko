@@ -12,9 +12,9 @@ public interface BookService {
 
     List<Book> getAll();
 
-    BookDto getById(long id);
+    BookDto getById(Long id);
 
     void update(BookUpdateDto book);
 
-    void deleteById(long id);
+    void deleteById(Long id);
 }

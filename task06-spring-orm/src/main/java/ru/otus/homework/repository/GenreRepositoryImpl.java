@@ -23,7 +23,7 @@ public class GenreRepositoryImpl implements GenreRepository {
     }
 
     @Override
-    public Optional<Genre> getById(long id) {
+    public Optional<Genre> getById(Long id) {
         return Optional.ofNullable(em.find(Genre.class, id));
     }
 }

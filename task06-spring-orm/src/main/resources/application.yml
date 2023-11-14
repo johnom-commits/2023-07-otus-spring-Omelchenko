@@ -11,9 +11,3 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: none
-
-#  h2:
-#    console:
-#      path: /h2-console
-#      settings:
-#        web-allow-others: true

@@ -9,16 +9,11 @@ public class BookConverter implements Converter<Book, String> {
 
     @Override
     public String convert(Book book) {
-        return "%s. %s, %s, %s, %s".formatted(
+        return "%s. %s, %s, %s".formatted(
                 book.getId(),
                 book.getTitle(),
                 book.getAuthor().getName(),
-                book.getGenre().getName(),
-                getComment(book)
+                book.getGenre().getName()
         );
-    }
-
-    private String getComment(Book book) {
-        return book.getComments().isEmpty() ? "" : book.getComments().get(0).getName();
     }
 }

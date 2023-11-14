@@ -9,5 +9,5 @@ public interface AuthorRepository {
 
     List<Author> getAll();
 
-    Optional<Author> getById(long id);
+    Optional<Author> getById(Long id);
 }

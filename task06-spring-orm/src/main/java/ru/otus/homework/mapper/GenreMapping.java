@@ -10,4 +10,8 @@ public class GenreMapping {
     public GenreDto toGenreDto(Genre genre) {
         return new GenreDto(genre.getId(), genre.getName());
     }
+
+    public Genre toGenre(GenreDto genreDto) {
+        return new Genre(genreDto.id(), genreDto.name());
+    }
 }
