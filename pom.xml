@@ -17,5 +17,6 @@
         <module>task04-spring-shell-application</module>
         <module>task05-spring-jdbc</module>
         <module>task06-spring-orm</module>
+        <module>task07-spring-data-jpa</module>
     </modules>
 </project>

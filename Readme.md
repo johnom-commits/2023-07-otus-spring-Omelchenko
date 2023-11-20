@@ -17,3 +17,5 @@
 Занятие 09 "DAO на Spirng JDBC" -> task05-spring-jdbc
 
 Занятие 11 "JPQL, Spring ORM, DAO на основе Spring ORM + JPA" -> task06-spring-orm
+
+Занятие 13 "Белая магия" Spring Data: Spring Data JPA" -> task07-spring-data-jpa
