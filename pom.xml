@@ -18,5 +18,6 @@
         <module>task05-spring-jdbc</module>
         <module>task06-spring-orm</module>
         <module>task07-spring-data-jpa</module>
+        <module>task08-spring-mongodb</module>
     </modules>
 </project>

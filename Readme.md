@@ -2,7 +2,7 @@
 
 ## Spring Framework
 
-### Группа 07.2023
+### Группы 07.2023, 11.2023
 
 ### Домашняя работа:
 
@@ -19,3 +19,5 @@
 Занятие 11 "JPQL, Spring ORM, DAO на основе Spring ORM + JPA" -> task06-spring-orm
 
 Занятие 13 "Белая магия" Spring Data: Spring Data JPA" -> task07-spring-data-jpa
+
+Занятие 15 "Spring Data для подключения к нереляционным БД" -> task08-spring-mongodb
