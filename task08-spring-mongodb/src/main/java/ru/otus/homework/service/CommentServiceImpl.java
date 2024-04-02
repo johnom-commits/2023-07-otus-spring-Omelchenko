@@ -26,9 +26,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(readOnly = true)
     public List<Comment> getByBookId(String bookId) {
-        Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new NotFoundException("Not found comment for book with id = " + bookId));
-        return book.getComments();
+        return commentRepository.findByBookId(bookId);
     }
 
     @Override
@@ -43,8 +41,12 @@ public class CommentServiceImpl implements CommentService {
     public void create(CommentDto commentDto) {
         Book book = bookRepository.findById(commentDto.book_id())
                 .orElseThrow(() -> new NotFoundException("Not found book with id = " + commentDto.book_id()));
-        Comment comment = commentMapping.toComment(commentDto);
-        book.getComments().add(comment);
-        bookRepository.save(book);
+        Comment comment = commentMapping.toComment(commentDto, book);
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public void allDelete(String bookId) {
+        commentRepository.deleteByBookId(bookId);
     }
 }

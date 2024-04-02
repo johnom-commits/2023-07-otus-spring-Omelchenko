@@ -11,4 +11,6 @@ public interface CommentService {
     Comment getById(String id);
 
     void create(CommentDto commentDto);
+
+    void allDelete(String bookId);
 }

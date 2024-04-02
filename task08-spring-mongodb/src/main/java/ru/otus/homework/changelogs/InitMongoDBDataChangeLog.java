@@ -12,8 +12,6 @@ import ru.otus.homework.repository.BookRepository;
 import ru.otus.homework.repository.CommentRepository;
 import ru.otus.homework.repository.GenreRepository;
 
-import java.util.List;
-
 @ChangeLog(order = "001")
 public class InitMongoDBDataChangeLog {
 
@@ -44,13 +42,10 @@ public class InitMongoDBDataChangeLog {
 
     @ChangeSet(order = "003", id = "initBooks", runAlways = true, author = "johnom")
     public void initBooks(CommentRepository commentRepository, BookRepository bookRepository) {
-        List<Comment> comments = List.of(
-                commentRepository.save(new Comment("Отличная книга"))
-        );
-        List<Comment> commentsMakarenko = List.of(
-                commentRepository.save(new Comment("Отличный пример педагогики"))
-        );
-        bookRepository.save(new Book("Нерв", visotskiy, poem, comments));
-        bookRepository.save(new Book("Педагогическая поэма", makarenko, novel, commentsMakarenko));
+        Book nerve = bookRepository.save(new Book("Нерв", visotskiy, poem));
+        Book pedagogicalPoem = bookRepository.save(new Book("Педагогическая поэма", makarenko, novel));
+
+        commentRepository.save(new Comment("Отличная книга", nerve));
+        commentRepository.save(new Comment("Отличный пример педагогики", pedagogicalPoem));
     }
 }

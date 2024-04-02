@@ -139,6 +139,11 @@ public class ShellAppRunner {
         commentService.create(new CommentDto(text, bookId));
     }
 
+    @ShellMethod(value = "delete all comments", key = {"all-delete", "ad"})
+    public void deleteComments(@ShellOption String bookId) {
+        commentService.allDelete(bookId);
+    }
+
     private String formatText(StringBuilder builder) {
         int n = builder.length();
         if (n == 0) {

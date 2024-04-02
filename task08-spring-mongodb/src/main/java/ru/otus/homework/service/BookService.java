@@ -13,7 +13,6 @@ public interface BookService {
 
     List<Book> getAll();
 
-    @Transactional(readOnly = true)
     BookDto getById(String id);
 
     void update(BookUpdateDto book);
