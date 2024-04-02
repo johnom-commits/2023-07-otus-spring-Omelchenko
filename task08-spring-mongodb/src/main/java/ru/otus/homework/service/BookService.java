@@ -1,6 +1,5 @@
 package ru.otus.homework.service;
 
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.dto.BookCreateDto;
 import ru.otus.homework.dto.BookDto;
