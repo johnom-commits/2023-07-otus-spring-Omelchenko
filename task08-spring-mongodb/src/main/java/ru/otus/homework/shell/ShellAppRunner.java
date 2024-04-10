@@ -43,8 +43,8 @@ public class ShellAppRunner {
     public void addBook(@ShellOption String title, @ShellOption String authorId, @ShellOption String genreId) {
         BookCreateDto book = new BookCreateDto(
                 title,
-                Long.parseLong(authorId),
-                Long.parseLong(genreId)
+                authorId,
+                genreId
         );
         bookService.saveBook(book);
     }
@@ -56,10 +56,10 @@ public class ShellAppRunner {
                            @ShellOption String authorId,
                            @ShellOption String genreId) {
         BookUpdateDto book = new BookUpdateDto(
-                Long.parseLong(id),
+                id,
                 title,
-                Long.parseLong(authorId),
-                Long.parseLong(genreId)
+                authorId,
+                genreId
         );
         bookService.update(book);
     }
@@ -79,7 +79,7 @@ public class ShellAppRunner {
     @SuppressWarnings("unused")
     @ShellMethod(value = "read book", key = {"book", "b"})
     public String readBook(@ShellOption String id) {
-        BookDto book = bookService.getById(Long.parseLong(id));
+        BookDto book = bookService.getById(id);
         return "%s. %s, %s, %s".formatted(
                 book.id(),
                 book.title(),
@@ -91,17 +91,16 @@ public class ShellAppRunner {
     @SuppressWarnings("unused")
     @ShellMethod(value = "delete book by id", key = {"delete-book", "db"})
     public void deleteBook(@ShellOption String id) {
-        bookService.deleteById(Long.parseLong(id));
+        bookService.deleteById(id);
     }
 
     @SuppressWarnings("unused")
     @ShellMethod(value = "list all authors", key = {"authors", "a"})
     public String authors() {
         final StringBuilder builder = new StringBuilder();
-        authorService.getAllAuthors().forEach(
-                author -> builder
-                        .append(authorConverter.convert(author))
-                        .append("\n")
+        authorService.getAllAuthors().forEach(author -> builder
+                .append(authorConverter.convert(author))
+                .append("\n")
         );
         return formatText(builder);
     }
@@ -110,51 +109,39 @@ public class ShellAppRunner {
     @ShellMethod(value = "list all genres", key = {"genres", "g"})
     public String genres() {
         final StringBuilder builder = new StringBuilder();
-        genreService.getAllGenres().forEach(
-                genre -> builder
-                        .append(genreConverter.convert(genre))
-                        .append("\n")
+        genreService.getAllGenres().forEach(genre -> builder
+                .append(genreConverter.convert(genre))
+                .append("\n")
         );
         return formatText(builder);
     }
 
     @SuppressWarnings("unused")
     @ShellMethod(value = "list comments by book id", key = {"comment-book-id", "cb"})
-    public String comments(@ShellOption String id) {
+    public String comments(@ShellOption String bookId) {
         final StringBuilder builder = new StringBuilder();
-        commentService.getByBookId(Long.parseLong(id))
-                .forEach(comment -> builder
-                        .append(commentConverter.convert(comment))
-                        .append("\n")
-                );
+        commentService.getByBookId(bookId)
+                .forEach(comment -> builder.append(commentConverter.convert(comment))
+                        .append("\n"));
         return formatText(builder);
     }
 
     @SuppressWarnings("unused")
     @ShellMethod(value = "comment by id", key = {"comment", "c"})
-    public String comment(@ShellOption String id) {
-        Comment comment = commentService.getById(Long.parseLong(id));
+    public String comment(@ShellOption String commentId) {
+        Comment comment = commentService.getById(commentId);
         return commentConverter.convert(comment);
     }
 
     @SuppressWarnings("unused")
     @ShellMethod(value = "add comment", key = {"add-comment", "ac"})
     public void addComment(@ShellOption String bookId, String text) {
-        commentService.create(
-                new CommentDto(text, Long.parseLong(bookId))
-        );
+        commentService.create(new CommentDto(text, bookId));
     }
 
-    @SuppressWarnings("unused")
-    @ShellMethod(value = "delete comment", key = {"delete-comment", "dc"})
-    public void deleteComment(@ShellOption String id) {
-        commentService.delete(Long.parseLong(id));
-    }
-
-    @SuppressWarnings("unused")
-    @ShellMethod(value = "update comment", key = {"update-comment", "uc"})
-    public void updateComment(@ShellOption String id, String text) {
-        commentService.update(Long.parseLong(id), text);
+    @ShellMethod(value = "delete all comments", key = {"all-delete", "ad"})
+    public void deleteComments(@ShellOption String bookId) {
+        commentService.allDelete(bookId);
     }
 
     private String formatText(StringBuilder builder) {
@@ -165,4 +152,5 @@ public class ShellAppRunner {
         builder.delete(n - 1, n);
         return builder.toString();
     }
+
 }
