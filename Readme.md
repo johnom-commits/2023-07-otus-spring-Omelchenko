@@ -21,3 +21,5 @@
 Занятие 13 "Белая магия" Spring Data: Spring Data JPA" -> task07-spring-data-jpa
 
 Занятие 15 "Spring Data для подключения к нереляционным БД" -> task08-spring-mongodb
+
+Занятие 18 "Spring MVC View" -> task09-spring-thymeleaf
