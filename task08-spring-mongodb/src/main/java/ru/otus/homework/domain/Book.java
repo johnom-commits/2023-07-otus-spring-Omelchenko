@@ -15,7 +15,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Document(value = "books")
 public class Book {
-
     @Id
     private String id;
 
