@@ -4,8 +4,10 @@ import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
 import ru.otus.homework.domain.Author;
+import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
 import ru.otus.homework.repositories.AuthorRepository;
+import ru.otus.homework.repositories.BookRepository;
 import ru.otus.homework.repositories.GenreRepository;
 
 @ChangeLog(order = "000")
@@ -30,7 +32,16 @@ public class InitMongoDBDataChangeLog {
 
     @ChangeSet(order = "003", id = "initAuthors", runAlways = true, author = "johnom")
     public void initAuthors(AuthorRepository authorRepository) {
-        visotskiy = authorRepository.save(Author.builder().name("Высоцкий").build());
-        makarenko = authorRepository.save(Author.builder().name("Макаренко").build());
+        visotskiy = authorRepository.save(Author.builder().name("Высоцкий Владимир Семенович").build());
+        makarenko = authorRepository.save(Author.builder().name("Макаренко Антон Семенович").build());
+    }
+
+    @ChangeSet(order = "004", id = "initBooks", runAlways = true, author = "johnom")
+    public void initBooks(BookRepository bookRepository) {
+        Book nerve = bookRepository.save(new Book("Нерв", visotskiy, poem));
+        Book pedagogicalPoem = bookRepository.save(new Book("Педагогическая поэма", makarenko, novel));
+
+//        commentRepository.save(new Comment("Отличная книга", nerve));
+//        commentRepository.save(new Comment("Отличный пример педагогики", pedagogicalPoem));
     }
 }

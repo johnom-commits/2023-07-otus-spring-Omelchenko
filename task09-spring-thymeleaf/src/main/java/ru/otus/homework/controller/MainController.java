@@ -1,29 +1,24 @@
 package ru.otus.homework.controller;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import ma.glasnost.orika.MapperFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.otus.homework.dto.AuthorDto;
-import ru.otus.homework.dto.GenreDto;
-import ru.otus.homework.repositories.BookRepository;
+import org.springframework.web.bind.annotation.PostMapping;
+import ru.otus.homework.dto.BookDto;
 import ru.otus.homework.service.AuthorService;
 import ru.otus.homework.service.BookService;
 import ru.otus.homework.service.GenreService;
 
-import java.util.List;
-
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class GenreController {
+public class MainController {
 
     GenreService genreService;
     AuthorService authorService;
-    MapperFacade orikaMapperFacade;
     BookService bookService;
 
     @GetMapping("/books")
@@ -32,24 +27,33 @@ public class GenreController {
         return "books";
     }
 
+    @GetMapping("/new_book")
+    public String addNewBook() {
+        return "new-book";
+    }
+
     @GetMapping("/genres")
     public String getGenres(Model model) {
-        model.addAttribute("genres", getGenreDtos());
+        model.addAttribute("genres", genreService.getAllGenres());
         return "genres";
     }
 
     @GetMapping("/authors")
     public String getAuthors(Model model) {
-        model.addAttribute("authors", getAuthorsDtos());
+        model.addAttribute("authors", authorService.getAllAuthors());
         return "authors";
     }
 
-    private List<AuthorDto> getAuthorsDtos() {
-        return orikaMapperFacade.mapAsList(authorService.getAllAuthors(), AuthorDto.class);
-    }
+//    @GetMapping("/add")
+//    public String showAddBookForm(Model model) {
+//        model.addAttribute("book", new BookDto()); // Book - ваша модель
+//        return "add-book"; // Имя Thymeleaf-шаблона (add-book.html)
+//    }
 
-    private List<GenreDto> getGenreDtos() {
-        return orikaMapperFacade.mapAsList(genreService.getAllGenres(), GenreDto.class);
+    @PostMapping("/books/save")
+    public String saveBook(BookDto book) {
+        // Сохранение книги в БД (ваша логика)
+        return "redirect:/books"; // Редирект с сообщением об успехе
     }
 }
 

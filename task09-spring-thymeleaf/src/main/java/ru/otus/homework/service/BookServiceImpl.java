@@ -4,7 +4,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
-import ru.otus.homework.domain.Book;
+import ru.otus.homework.dto.BookDto;
+import ru.otus.homework.mapper.BooksMapping;
 import ru.otus.homework.repositories.BookRepository;
 
 import java.util.List;
@@ -15,9 +16,12 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
     BookRepository bookRepository;
+    BooksMapping booksMapping;
 
     @Override
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public List<BookDto> getAllBooks() {
+        return bookRepository.findAll().stream()
+                .map(booksMapping::convert)
+                .toList();
     }
 }

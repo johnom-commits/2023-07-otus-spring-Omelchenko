@@ -1,10 +1,10 @@
 package ru.otus.homework.service;
 
-import ru.otus.homework.domain.Genre;
+import ru.otus.homework.dto.GenreDto;
 
 import java.util.List;
 
 public interface GenreService {
 
-    List<Genre> getAllGenres();
+    List<GenreDto> getAllGenres();
 }

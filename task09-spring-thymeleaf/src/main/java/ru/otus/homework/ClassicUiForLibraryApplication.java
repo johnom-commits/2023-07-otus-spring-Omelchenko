@@ -10,7 +10,6 @@ public class ClassicUiForLibraryApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ClassicUiForLibraryApplication.class, args);
-		System.out.println("http://localhost:8080/authors");
+		System.out.println("http://localhost:8080/books");
 	}
-
 }

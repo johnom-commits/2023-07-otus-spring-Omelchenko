@@ -33,7 +33,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.github.cloudyrock.mongock</groupId>
 			<artifactId>mongock-spring-v5</artifactId>
@@ -44,13 +43,6 @@
 			<artifactId>mongodb-springdata-v3-driver</artifactId>
 			<version>${mongock.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>dev.akkinoc.spring.boot</groupId>
-			<artifactId>orika-spring-boot-starter</artifactId>
-			<version>3.3.4</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
