@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface AuthorService {
     List<AuthorDto> getAllAuthors();
+
+    void add(String name);
 }

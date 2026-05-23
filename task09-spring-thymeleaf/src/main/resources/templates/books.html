@@ -2,49 +2,53 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books</title>
-    <style type="text/css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+
+    <style>
+        /* Сброс внешнего отступа у body, чтобы container работал правильно */
         body {
-            padding: 50px;
+            padding: 0;
+            margin: 0;
         }
-        .books {
-            border: 2px solid steelblue;
-            width: 700px;
-            border-collapse: collapse;
+        /* Кнопка стала выглядеть как ссылка (для перехода) */
+        .btn-link {
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-top: 1rem;
         }
-        .books tr td, th {
-            padding: 5px;
-            border: 2px solid steelblue;
-        }
-        .books td:last-child, td:first-child {
-            width: 100px;
-        }
-    }
     </style>
 </head>
 <body>
-<h1>Книги</h1>
-<div style="padding-bottom: 20px;">
-    <table class="books">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Название</th>
-            <th>Автор</th>
-            <th>Жанр</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="book : ${books}">
-            <td th:text="${book.id}"></td>
-            <td th:text="${book.title}"></td>
-            <td th:text="${book.authorDto.name}"></td>
-            <td th:text="${book.genreDto.name}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 
-<a th:href="@{/new_book}" class="btn"  style="font-size: 20px;">Добавить новую книгу</a>
+<main class="container">
+    <h1>Книги</h1>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Название</th>
+                <th>Автор</th>
+                <th>Жанр</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.id}"></td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.authorDto.name}"></td>
+                <td th:text="${book.genreDto.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a th:href="@{/new_book}" role="button" class="btn-link">➕ Добавить новую книгу</a>
+</main>
+
 </body>
 </html>

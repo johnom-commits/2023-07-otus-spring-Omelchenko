@@ -2,42 +2,61 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавить новую книгу</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select { width: 300px; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
-        button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        button:hover { background-color: #45a049; }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-grid {
+            margin-top: 1.5rem;
+        }
     </style>
 </head>
 <body>
-<h1>Добавить новую книгу</h1>
+<main class="container">
+    <div class="form-container">
+        <h1>Добавить новую книгу</h1>
 
-<form th:action="@{/books/save}" th:method="post">
-    <div class="form-group">
-        <label for="title">Название книги:</label>
-        <input type="text" id="title" name = "title">
+        <form th:action="@{/books/save}" th:method="post" class="form-grid">
+
+            <!-- Поле для названия книги -->
+            <label for="title">
+                <strong>Название книги:</strong>
+            </label>
+            <input type="text" id="title" name="title" placeholder="Введите название книги" required />
+
+            <label for="author">
+                <strong>Автор:</strong>
+            </label>
+            <select id="author" name="author" required>
+                <option value="">-- Выберите автора --</option>
+                <option th:each="author : ${authors}"
+                        th:value="${author.id}"
+                        th:text="${author.name}">
+                </option>
+            </select>
+
+            <!-- Выпадающий список жанров -->
+            <label for="genre">
+                <strong>Жанр:</strong>
+            </label>
+            <select id="genre" name="genre" required>
+                <option value="">-- Выберите жанр --</option>
+                <option th:each="genre : ${genres}"
+                        th:value="${genre.id}"
+                        th:text="${genre.name}">
+                </option>
+            </select>
+
+            <button type="submit" style="margin-top: 0.5rem;">Сохранить книгу</button>
+
+        </form>
     </div>
-
-<!--    <div class="form-group">-->
-<!--        <label for="author">Автор:</label>-->
-<!--        <input type="text" id="author" th:value = "${book.authorDto}" required>-->
-<!--    </div>-->
-
-<!--    <div class="form-group">-->
-<!--        <label for="genre">Жанр:</label>-->
-<!--        <select id="genre" th:field="*{genre}" required>-->
-<!--            <option value="">Выберите жанр...</option>-->
-<!--            <option value="Фантастика">Фантастика</option>-->
-<!--            <option value="Детектив">Детектив</option>-->
-<!--            <option value="Роман">Роман</option>-->
-<!--            <option value="Научная литература">Научная литература</option>-->
-<!--        </select>-->
-<!--    </div>-->
-
-    <button type="submit">Сохранить</button>
-</form>
+</main>
 </body>
 </html>

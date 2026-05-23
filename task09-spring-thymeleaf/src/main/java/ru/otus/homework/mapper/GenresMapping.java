@@ -10,9 +10,6 @@ public class GenresMapping implements Converter<Genre, GenreDto> {
 
     @Override
     public GenreDto convert(Genre source) {
-        return GenreDto.builder()
-                .id(source.getId())
-                .name(source.getName())
-                .build();
+        return GenreDto.of(source.getId(), source.getName());
     }
 }

@@ -75,7 +75,7 @@ class MainControllerTest {
 
     @Test
     void getGenres() throws Exception {
-        List<GenreDto> genres = List.of(GenreDto.builder().name("novel").build());
+        List<GenreDto> genres = List.of(GenreDto.of("novel"));
         when(genreService.getAllGenres()).thenReturn(genres);
 
         mockMvc.perform(get("/genres"))

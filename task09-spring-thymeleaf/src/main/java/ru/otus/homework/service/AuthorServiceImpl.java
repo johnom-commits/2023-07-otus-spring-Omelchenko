@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.homework.domain.Author;
 import ru.otus.homework.dto.AuthorDto;
 import ru.otus.homework.mapper.AuthorMapping;
 import ru.otus.homework.repositories.AuthorRepository;
@@ -25,5 +26,12 @@ public class AuthorServiceImpl implements AuthorService {
         return authorRepository.findAll().stream()
                 .map(authorMapping::convert)
                 .toList();
+    }
+
+    @Override
+    public void add(String name) {
+        Author author = new Author();
+        author.setName(name);
+        authorRepository.insert(author);
     }
 }
