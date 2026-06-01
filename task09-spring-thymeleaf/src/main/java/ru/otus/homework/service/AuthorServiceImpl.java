@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.dto.AuthorDto;
+import ru.otus.homework.exceptions.NotFoundException;
 import ru.otus.homework.mapper.AuthorMapping;
 import ru.otus.homework.repositories.AuthorRepository;
 
@@ -33,5 +34,11 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = new Author();
         author.setName(name);
         authorRepository.insert(author);
+    }
+
+    @Override
+    public Author getAuthorById(String id) {
+        return authorRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Не найден автор с id = " + id));
     }
 }

@@ -8,7 +8,7 @@ import ru.otus.homework.dto.BookDto;
 
 @Component
 @RequiredArgsConstructor
-public class BooksMapping implements Converter<Book, BookDto> {
+public class BookMapping implements Converter<Book, BookDto> {
 
     private final AuthorMapping authorMapping;
     private final GenresMapping genresMapping;

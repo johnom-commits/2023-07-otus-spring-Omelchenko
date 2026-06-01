@@ -38,6 +38,7 @@ public class MainController {
         model.addAttribute("authors", authors);
         List<GenreDto> genres = genreService.getAllGenres();
         model.addAttribute("genres", genres);
+        model.addAttribute("book", new NewBookDto());
         return "new-book";
     }
 
@@ -76,8 +77,8 @@ public class MainController {
 //    }
 
     @PostMapping("/books/save")
-    public String saveBook(BookDto book) {
-        // Сохранение книги в БД (ваша логика)
+    public String saveBook(@ModelAttribute NewBookDto book) {
+        bookService.save(book);
         return "redirect:/books"; // Редирект с сообщением об успехе
     }
 }

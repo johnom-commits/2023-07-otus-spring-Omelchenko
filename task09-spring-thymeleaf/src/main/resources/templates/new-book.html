@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавить новую книгу</title>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
-
     <style>
         .form-container {
             max-width: 600px;
@@ -22,18 +20,15 @@
     <div class="form-container">
         <h1>Добавить новую книгу</h1>
 
-        <form th:action="@{/books/save}" th:method="post" class="form-grid">
-
-            <!-- Поле для названия книги -->
+        <form th:action="@{/books/save}" th:method="post" th:object="${book}" class="form-grid">
             <label for="title">
                 <strong>Название книги:</strong>
             </label>
             <input type="text" id="title" name="title" placeholder="Введите название книги" required />
-
             <label for="author">
                 <strong>Автор:</strong>
             </label>
-            <select id="author" name="author" required>
+            <select id="author" name="author" th:field="${book.author}" required>
                 <option value="">-- Выберите автора --</option>
                 <option th:each="author : ${authors}"
                         th:value="${author.id}"
@@ -41,11 +36,10 @@
                 </option>
             </select>
 
-            <!-- Выпадающий список жанров -->
             <label for="genre">
                 <strong>Жанр:</strong>
             </label>
-            <select id="genre" name="genre" required>
+            <select id="genre" name="genre" th:field="${book.genre}" required>
                 <option value="">-- Выберите жанр --</option>
                 <option th:each="genre : ${genres}"
                         th:value="${genre.id}"
@@ -54,7 +48,6 @@
             </select>
 
             <button type="submit" style="margin-top: 0.5rem;">Сохранить книгу</button>
-
         </form>
     </div>
 </main>
